@@ -7,3 +7,4 @@ variable "environment" {
 }
 
 variable "my_ip" {}
+variable "instance_type" {}

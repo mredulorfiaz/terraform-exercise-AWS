@@ -81,6 +81,18 @@ data "aws_ami" "latest-amazon-ami" {
     }
 }
 
-output "ami-info" {
-  value = data.aws_ami.latest-amazon-ami.id
+resource "aws_instance" "nc-aws-instance" {
+  ami = data.aws_ami.latest-amazon-ami.id
+  instance_type = var.instance_type
+
+  subnet_id = aws_subnet.nc-vpc-subnet-1.id
+  security_groups = [aws_default_security_group.nc-dev-default-sg.id]
+
+  associate_public_ip_address = true
+  key_name = "orfiaj-key-pair"
+
+  tags = {
+    Name: "orfiaj-${var.environment}-server"
+  }
+
 }
