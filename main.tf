@@ -51,6 +51,13 @@ resource "aws_default_security_group" "nc-dev-default-sg" {
         protocol = "tcp"
         cidr_blocks = [var.my_ip]
     }
+    ingress {
+        description = "Nginx configuration"
+        from_port = 8080
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = [var.my_ip]
+    }
     egress {
         description = "Allow traffic to reach outside"
         from_port = 0
