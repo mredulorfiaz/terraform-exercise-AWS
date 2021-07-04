@@ -90,7 +90,7 @@ data "aws_ami" "latest-amazon-ami" {
 
 resource "aws_key_pair" "ssh-key" {
   key_name = "nc-server-key"
-  public_key = ${file(var.pub_file_location)}
+  public_key = file(var.pub_file_location)
 }
 
 resource "aws_instance" "nc-aws-instance" {
@@ -102,6 +102,8 @@ resource "aws_instance" "nc-aws-instance" {
 
   associate_public_ip_address = true
   key_name = aws_key_pair.ssh-key.key_name
+
+  user_data = file("entry-point.sh")
 
   tags = {
     Name: "orfiaj-${var.environment}-server"
