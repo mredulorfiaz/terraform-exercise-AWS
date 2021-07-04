@@ -7,4 +7,7 @@ variable "environment" {
 }
 
 variable "my_ip" {}
+
 variable "instance_type" {}
+
+variable "pub_file_location" {}

@@ -81,6 +81,11 @@ data "aws_ami" "latest-amazon-ami" {
     }
 }
 
+resource "aws_key_pair" "ssh-key" {
+  key_name = "nc-server-key"
+  public_key = ${file(var.pub_file_location)}
+}
+
 resource "aws_instance" "nc-aws-instance" {
   ami = data.aws_ami.latest-amazon-ami.id
   instance_type = var.instance_type
@@ -89,7 +94,7 @@ resource "aws_instance" "nc-aws-instance" {
   security_groups = [aws_default_security_group.nc-dev-default-sg.id]
 
   associate_public_ip_address = true
-  key_name = "orfiaj-key-pair"
+  key_name = aws_key_pair.ssh-key.key_name
 
   tags = {
     Name: "orfiaj-${var.environment}-server"
