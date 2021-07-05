@@ -103,7 +103,23 @@ resource "aws_instance" "nc-aws-instance" {
   associate_public_ip_address = true
   key_name = aws_key_pair.ssh-key.key_name
 
-  user_data = file("entry-point.sh")
+  # user_data = file("entry-point.sh")
+
+  connection {
+    type = "ssh"
+    host = self.public_ip
+    user = "ec2-user"
+    private_key = file(var.private_key_location)
+  }
+
+  provisioner "file" {
+    source = "entry-point.sh"
+    destination = "/home/ec2-user/entry-point-on-ec2.sh"
+  }
+
+  provisioner "remote-exec" {
+    script = file("/home/ec2-user/entry-point-on-ec2.sh")
+  }
 
   tags = {
     Name: "orfiaj-${var.environment}-server"

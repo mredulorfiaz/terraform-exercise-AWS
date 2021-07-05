@@ -11,3 +11,5 @@ variable "my_ip" {}
 variable "instance_type" {}
 
 variable "pub_file_location" {}
+
+variable "private_key_location" {}
